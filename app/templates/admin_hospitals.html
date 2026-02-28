@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Hospital Management - BloodLink</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <i class="fas fa-droplet"></i> BloodLink Admin
+            </div>
+            <ul class="nav-menu">
+                <li><a href="/dashboard">Dashboard</a></li>
+                <li><a href="/admin/hospitals">Hospitals</a></li>
+                <li><a href="/admin/donors">Donors</a></li>
+                <li><a href="/admin/requests">Requests</a></li>
+                <li>
+                    <button id="logout-btn" class="btn-logout">Logout</button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="dashboard-container">
+        <div class="container">
+            <h1>Hospital Management</h1>
+            <div class="dashboard-card">
+                <h2>Filter & Actions</h2>
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+                    <input type="text" id="search-box" placeholder="Search by name, email, phone..." style="padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 5px; flex: 1; min-width: 200px;">
+                    <select id="status-filter" style="padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 5px;">
+                        <option value="">All Status</option>
+                        <option value="verified">Verified</option>
+                        <option value="unverified">Unverified</option>
+                        <option value="flagged">Flagged</option>
+                    </select>
+                    <button class="btn btn-primary" id="refresh-btn">🔄 Refresh</button>
+                </div>
+            </div>
+            <div class="dashboard-card">
+                <h2>Registered Hospitals & Organizations</h2>
+                <div style="overflow-x: auto;">
+                    <table id="hospitals-table" style="width: 100%; border-collapse: collapse;">
+                        <thead>
+                            <tr style="background: var(--light-color); border-bottom: 2px solid var(--border-color);">
+                                <th style="padding: 1rem; text-align: left; border-right: 1px solid var(--border-color);">ID</th>
+                                <th style="padding: 1rem; text-align: left; border-right: 1px solid var(--border-color);">Name</th>
+                                <th style="padding: 1rem; text-align: left; border-right: 1px solid var(--border-color);">Email</th>
+                                <th style="padding: 1rem; text-align: left; border-right: 1px solid var(--border-color);">Phone</th>
+                                <th style="padding: 1rem; text-align: left; border-right: 1px solid var(--border-color);">Role</th>
+                                <th style="padding: 1rem; text-align: left; border-right: 1px solid var(--border-color);">Status</th>
+                                <th style="padding: 1rem; text-align: left; border-right: 1px solid var(--border-color);">Joined</th>
+                                <th style="padding: 1rem; text-align: center;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-body">
+                            <tr>
+                                <td colspan="8" style="text-align: center; padding: 2rem; color: var(--text-color);">Loading...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="table-info" style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-color);">
+                    Total: <span id="total-count">0</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="delete-modal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span class="close" onclick="document.getElementById('delete-modal').style.display='none'">&times;</span>
+            <h2>Confirm Delete</h2>
+            <p id="delete-message"></p>
+            <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 2rem;">
+                <button class="btn btn-primary" id="confirm-delete-btn">Delete</button>
+                <button class="btn btn-secondary" onclick="document.getElementById('delete-modal').style.display='none'">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div id="edit-modal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span class="close" onclick="document.getElementById('edit-modal').style.display='none'">&times;</span>
+            <h2>Edit User</h2>
+            <form id="edit-form">
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" id="edit-name" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="edit-email" required>
+                </div>
+                <div class="form-group">
+                    <label>Status</label>
+                    <select id="edit-status">
+                        <option value="verified">Verified</option>
+                        <option value="unverified">Unverified</option>
+                        <option value="flagged">Flagged</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+</body>
+</html>

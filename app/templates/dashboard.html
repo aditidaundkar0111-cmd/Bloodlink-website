@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - BloodLink</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <i class="fas fa-droplet"></i> BloodLink
+            </div>
+            <ul class="nav-menu">
+                <li><a href="/">Home</a></li>
+                <li><a href="/search">Find Donor</a></li>
+                <li>
+                    <button id="logout-btn" class="btn-logout">Logout</button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="dashboard-container">
+        <div class="container">
+            <h1>Dashboard</h1>
+            <div class="user-info-card">
+                <h2 id="user-name"></h2>
+                <p id="user-email"></p>
+                <button class="btn btn-secondary">Edit Profile</button>
+            </div>
+            <div id="donor-section" class="dashboard-card" style="display:none;">
+                <h2>Donor Profile</h2>
+                <div class="donor-info">
+                    <p><strong>Blood Group:</strong> <span id="donor-blood-group"></span></p>
+                    <p><strong>Location:</strong> <span id="donor-location"></span></p>
+                    <p><strong>Availability:</strong> <span id="donor-availability"></span></p>
+                    <p><strong>Total Donations:</strong> <span id="donor-count"></span></p>
+                    <p><strong>Last Donation:</strong> <span id="last-donation"></span></p>
+                </div>
+                <button id="toggle-availability-btn" class="btn btn-primary">Toggle Availability</button>
+                <button class="btn btn-secondary">Update Profile</button>
+            </div>
+            <div class="dashboard-card">
+                <h2>Blood Requests</h2>
+                <div id="requests-list" class="requests-list">
+
+                </div>
+                <button id="create-request-btn" class="btn btn-primary">Create Request</button>
+            </div>
+            <div class="dashboard-card">
+                <h2>Statistics</h2>
+                <div class="stats-grid">
+                    <div class="stat">
+                        <h3 id="stat-donors">0</h3>
+                        <p>Registered Donors</p>
+                    </div>
+                    <div class="stat">
+                        <h3 id="stat-requests">0</h3>
+                        <p>Active Requests</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="request-modal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Create Blood Request</h2>
+            <form id="create-request-form">
+                <div class="form-group">
+                    <label>Blood Group Needed</label>
+                    <select id="request-blood-group" required>
+                        <option value="">Select Blood Group</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Location</label>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <input type="text" id="request-location" required placeholder="Hospital address or location name">
+                        <button type="button" id="get-current-location-btn" class="btn btn-secondary" style="white-space: nowrap; padding: 0.75rem 1rem;">📍 Use Live Location</button>
+                    </div>
+                    <div id="location-status" style="font-size: 0.85rem; color: var(--text-color); margin-top: 0.5rem; display: none;"></div>
+                </div>
+
+                <div class="form-group" style="display: none;" id="coordinates-group">
+                    <label>Coordinates</label>
+                    <input type="text" id="request-coords" readonly placeholder="Latitude, Longitude">
+                </div>
+
+                <div class="form-group">
+                    <label>Urgency Level</label>
+                    <select id="request-urgency">
+                        <option value="normal">Normal</option>
+                        <option value="urgent">Urgent</option>
+                        <option value="critical">Critical</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Create Request</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+</html>
